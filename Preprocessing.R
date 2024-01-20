@@ -6,6 +6,8 @@ dataset$Title <- gsub('(.*, )|(\\..*)', '', dataset$Name)
 dataset$Title <- gsub('(Mlle|Mme|Ms|Miss|Lady|Countess|Dona)', 'Miss', dataset$Title)
 dataset$Title <- gsub('(Mrs)', 'Mrs', dataset$Title)
 dataset$Title <- gsub('(Master|Sir|Rev|Major|Col|Capt|Don|Jonkheer|Dr|)', 'Mr', dataset$Title)
+
+# Removing titles from the Name and save back to the variable Name
 dataset$Name <- gsub("(Mlle.|Mme.|Ms.|Miss.|Lady.|Countess.|Dona.|Mrs.|Master.|Sir.|Rev.|Major.|Col.|Capt.|Don.|Jonkheer.|Dr.|Mr.)","",dataset$Name)
 
 
