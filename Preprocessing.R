@@ -1,14 +1,22 @@
 # Read the dataset dataset
 dataset <- read.csv("titanic.csv", stringsAsFactors = FALSE)
 
-# Extract title from the Name variable
+# Extract title from the Name variable.
+# In total there will be only 4 Titles.
 dataset$Title <- gsub('(.*, )|(\\..*)', '', dataset$Name)
+# Update different meaning of unmarried women to Miss
 dataset$Title <- gsub('(Mlle|Mme|Ms|Miss|Lady|Countess|Dona)', 'Miss', dataset$Title)
 dataset$Title <- gsub('(Mrs)', 'Mrs', dataset$Title)
-dataset$Title <- gsub('(Master|Sir|Rev|Major|Col|Capt|Don|Jonkheer|Dr|)', 'Mr', dataset$Title)
+dataset$Title <- gsub('(Sir|Rev|Major|Col|Capt|Don|Jonkheer|Dr)', 'Mr', dataset$Title)
 
-# Removing titles from the Name and save back to the variable Name
-dataset$Name <- gsub("(Mlle.|Mme.|Ms.|Miss.|Lady.|Countess.|Dona.|Mrs.|Master.|Sir.|Rev.|Major.|Col.|Capt.|Don.|Jonkheer.|Dr.|Mr.)","",dataset$Name)
+# Factorize the variables of "Survived", "Sex" and "Embarked" since all has maximum of 3 different values
+dataset$Survived<- factor(dataset$Survived)
+dataset$Sex<- factor(dataset$Sex)
+dataset$Embarked<- factor(dataset$Embarked)
+
+# Impute the age of N.A values in Age variable using median age of each title group.
+dataset$Age<- ave(dataset$Age, dataset$Title, FUN = function (x) replace(x, is.na(x), median(x, na.rm = TRUE)))
+
 
 
 # Convert variables to factors
@@ -19,5 +27,9 @@ dataset$Side <- ifelse(grepl("\\.", dataset$Cabin), ifelse(as.integer(gsub("[^0-
 dataset$Deck <- substr(dataset$Cabin, 1, 1)
 dataset$Deck[dataset$Deck == ","] <- NA
 
+# Remove the Variables "PassengerId", "Name", "Ticket" and "Cabin"
+del<-c("PassengerId", "Name", "Ticket", "Cabin")
+dataset=dataset[,!(names(dataset) %in% del)]
+
 # Save as preprocessed.R file
-write.csv(dataset, "https://github.com/Sarvin23/Titanic/titanic_preprocessed.csv", row.names = FALSE)
+write.csv(dataset,file = "Preprocessed.csv")
