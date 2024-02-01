@@ -36,4 +36,25 @@ summary_stats_continuous <- function(data) {
 data<-read.csv("Preprocessed.csv")
 summary_stats_continuous(data)
 
+summary_stats_categorical <- function(data) {
+  cat_vars <- detect_cat_variables(data)
 
+    for (var in cat_vars) {
+    # calculate summary statistics for a categorical variable
+    counts <- table(data[[var]], useNA = "ifany")
+    prop <- prop.table(counts)
+
+    # create a summary table without Proportions.Var1
+    summary_table <- data.frame(
+      "Counts" = as.numeric(counts),
+      "Proportions" = prop
+    )
+
+    # print the summary table
+    cat("\nSummary Statistics for", var, "\n")
+    print(summary_table)
+  }
+}
+
+ data<-read.csv("Preprocessed.csv")
+summary_stats_categorical(data)

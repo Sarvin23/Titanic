@@ -20,3 +20,30 @@ data <- read.csv("Preprocessed.csv")  # Replace "your_data.csv" with the actual 
 metric_vars <-  detect_metric_variables(data)
 print(metric_vars)
 
+
+detect_cat_variables <- function(data, exclude_column = "X") {
+  # Initialize an empty array to store the variable names
+  cat_vars <- c()
+
+  # Loop through each column in the data
+  for (col in names(data)) {
+    # Skip the exclude_column
+    if (col == exclude_column) {
+      next
+    }
+
+    # Check if the column contains metric values
+    if (!(is.numeric(data[[col]]) && any(grepl("\\.", as.character(data[[col]]))))) {
+      cat_vars <- c(cat_vars, col)  # Add the variable name to the array data[[col]]
+    }
+  }
+
+
+  # Return the array of variable names with metric values
+  return(cat_vars)
+}
+
+# Example usage
+data <- read.csv("Preprocessed.csv")  # Replace "your_data.csv" with the actual file name
+cat_vars <-  detect_cat_variables(data)
+print(cat_vars)

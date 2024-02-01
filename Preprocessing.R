@@ -5,9 +5,9 @@ dataset <- read.csv("titanic.csv", stringsAsFactors = FALSE)
 # In total there will be only 4 Titles.
 dataset$Title <- gsub('(.*, )|(\\..*)', '', dataset$Name)
 # Update different meaning of unmarried women to Miss
-dataset$Title <- gsub('(Mlle|Mme|Ms|Miss|Lady|Countess|Dona)', 'Miss', dataset$Title)
+dataset$Title <- gsub('(Mlle|Mme|Ms|Miss|Lady|Countess|Dona|the Miss)', 'Miss', dataset$Title)
 dataset$Title <- gsub('(Mrs)', 'Mrs', dataset$Title)
-dataset$Title <- gsub('(Sir|Rev|Major|Col|Capt|Don|Jonkheer|Dr)', 'Mr', dataset$Title)
+dataset$Title <- gsub('(Sir|Rev|Major|Col|Capt|Don|Jonkheer|Dr|Master)', 'Mr', dataset$Title)
 
 # Factorize the variables of "Survived", "Sex" and "Embarked" since all has maximum of 3 different values
 dataset$Survived<- factor(dataset$Survived)
@@ -29,7 +29,7 @@ dataset$Deck[dataset$Deck == ","] <- NA
 
 # Remove the Variables "PassengerId", "Name", "Ticket" and "Cabin"
 del<-c("PassengerId", "Name", "Ticket", "Cabin")
-dataset=dataset[,!(names(dataset) %in% del)]
+dataset=dataset[!(names(dataset) %in% del)]
 
-# Save as preprocessed.R file
+# Save as preprocessed.csv file
 write.csv(dataset,file = "Preprocessed.csv")
