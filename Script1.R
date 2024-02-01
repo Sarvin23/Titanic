@@ -40,6 +40,10 @@ summary_stats_categorical <- function(data) {
   cat_vars <- detect_cat_variables(data)
 
     for (var in cat_vars) {
+      if (all(is.na(data[[var]]))) {
+      cat("All values in the variable", var,"are not available", "\n")
+      next
+      }
     # calculate summary statistics for a categorical variable
     counts <- table(data[[var]], useNA = "ifany")
     prop <- prop.table(counts)
@@ -56,5 +60,5 @@ summary_stats_categorical <- function(data) {
   }
 }
 
- data<-read.csv("Preprocessed.csv")
+data<-read.csv("Preprocessed.csv")
 summary_stats_categorical(data)

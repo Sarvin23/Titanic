@@ -5,7 +5,7 @@ dataset <- read.csv("titanic.csv", stringsAsFactors = FALSE)
 # In total there will be only 4 Titles.
 dataset$Title <- gsub('(.*, )|(\\..*)', '', dataset$Name)
 # Update different meaning of unmarried women to Miss
-dataset$Title <- gsub('(Mlle|Mme|Ms|Miss|Lady|Countess|Dona|the Miss)', 'Miss', dataset$Title)
+dataset$Title <- gsub('(Mlle|Mme|Ms|Miss|Lady|the Countess|Dona)', 'Miss', dataset$Title)
 dataset$Title <- gsub('(Mrs)', 'Mrs', dataset$Title)
 dataset$Title <- gsub('(Sir|Rev|Major|Col|Capt|Don|Jonkheer|Dr|Master)', 'Mr', dataset$Title)
 
