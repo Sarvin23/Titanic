@@ -47,3 +47,18 @@ detect_cat_variables <- function(data, exclude_column = "X") {
 data <- read.csv("Preprocessed.csv")  # Replace "your_data.csv" with the actual file name
 cat_vars <-  detect_cat_variables(data)
 print(cat_vars)
+
+
+# Internal function to remove missing values from a vector
+# Remove missing values from a vector
+
+# This function removes missing values from a vector.
+
+# input: x A vector
+# output: A vector without missing values
+
+
+remove_missing_values <- function(x) {
+  return(x[!is.na(x)])
+}
+
