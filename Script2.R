@@ -44,50 +44,30 @@ detect_cat_variables <- function(data, exclude_column = "X") {
 }
 
 # Example usage
-data <- read.csv("Preprocessed.csv")  # Replace "your_data.csv" with the actual file name
+data <- read.csv("Preprocessed.csv")
 cat_vars <-  detect_cat_variables(data)
 print(cat_vars)
 
 
 
+detect_cat_variable_combinations <- function(data, exclude_column = "X") {
+  # Initialize an empty list to store combinations
+  cat_var_combinations <- list()
 
+  # Get categorical variables
+  cat_vars <- names(data)[sapply(data, function(x) is.factor(x) | is.character(x))]
 
-# Funktion zur Berechnung geeigneter deskriptiver bivariater Statistiken für 
-# den Zusammenhang zwischen zwei kategorialen Variablen.
-# Berechnet und gibt geeignete deskriptive bivariate Statistiken
-# fuer den Zusammenhang zwischen zwei kategorialen Variablen aus.
+  # Generate combinations of 2 categorical variables
+  combinations <- combn(cat_vars, 2)
 
-# Berechnet geeignete deskriptive bivariate Statistiken für den Zusammenhang
-# zwischen zwei kategorialen Variablen.
+  # Loop through each combination
+  for (i in 1:ncol(combinations)) {
+    cat_var_combinations[[i]] <- combinations[, i]
+  }
 
-# input: var1 Die erste kategoriale Variable.
-#        var2 Die zweite kategoriale Variable.
-# output: Eine Zusammenfassung der berechneten deskriptiven bivariaten 
-#         Statistiken.
-
-calculate_bivariate_stats_categorical <- function(var1, var2) {
-  # Kreuztabelle erstellen
-  contingency_table <- table(var1, var2)
-  
-  # Chi-Quadrat-Test durchfuehren
-  chi_sq_test <- chisq.test(contingency_table)
-  
-  # Phi-Koeffizient berechnen
-  phi_coefficient <- sqrt(chi_sq_test$statistic / sum(contingency_table))
-  
-  # Kontingenzkoeffizienten berechnen
-  contingency_coefficient <- sqrt(chi_sq_test$statistic / 
-                                    (chi_sq_test$statistic + length(var1)))
-  
-  # Zusammenfassung der Ergebnisse
-  result_summary <- list(
-    "Chi-Quadrat-Test" = chi_sq_test,
-    "Phi-Koeffizient" = phi_coefficient,
-    "Kontingenzkoeffizient" = contingency_coefficient
-  )
-  
-  return(result_summary)
+  return(cat_var_combinations)
 }
+
 
 
 
