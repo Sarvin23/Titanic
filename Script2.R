@@ -70,34 +70,6 @@ detect_cat_variable_combinations <- function(data, exclude_column = "X") {
 
 
 
-
-
-# Funktion zur Berechnung geeigneter deskriptiver bivariater Statistiken 
-# fuer den Zusammenhang zwischen einer metrischen und einer dichotomen Variablen
-# Berechnet und gibt geeignete deskriptive bivariate Statistiken fuer den 
-# Zusammenhang zwischen einer metrischen und einer dichotomen Variablen aus
-
-# Berechnet geeignete deskriptive bivariate Statistiken fuer den Zusammenhang 
-# zwischen einer metrischen und einer dichotomen Variablen.
-
-# input: metric_var Die metrische Variable.
-#        dichotomous_var Die dichotome Variable.
-# otput:Eine Zusammenfassung der berechneten deskriptiven bivariaten Statistiken
-
-calculate_bivariate_stats_metric_dichotomous <- function(metric_var, 
-                                                         dichotomous_var) {
-  # Mittelwert und Standardabweichung fuer jede Kategorie der dichotomen
-  # Variable berechnen.
-  bivariate_stats <- tapply(metric_var, dichotomous_var, 
-                            function(x) c(Mittelwert = mean(x), SD = sd(x)))
-  
-  # Zusammenfassung der Ergebnisse
-  return(bivariate_stats)
-}
-
-
-
-
 # Funktion zur Erstellung einer geeigneten Visualisierung von drei oder
 # vier kategorialen Variablen
 # Erstellt und gibt eine geeignete Visualisierung von drei oder vier 
@@ -134,3 +106,21 @@ remove_missing_values <- function(x) {
   return(x[!is.na(x)])
 }
 
+data <- read.csv("Preprocessed.csv")
+dic_vars <-  detect_dichotomous_variables(data)
+print(dic_vars)
+
+#Detecting the dichotomous_variables in the dataset.
+detect_dichotomous_variables <- function(data) {
+  dichotomous_vars <- character(0)
+
+  for (col in names(data)) {
+    unique_values <- unique(data[[col]])
+    if (length(unique_values) == 2 && all(unique_values %in% c(0, 1))) {
+      dichotomous_vars <- c(dichotomous_vars, col)
+    }
+  }
+
+  return(dichotomous_vars)
+}
+detect_dichotomous_variables()

@@ -124,3 +124,41 @@ result_table <- do.call(rbind, results_list)
 # Print or return the result table
 print(result_table)
 
+
+# Funktion zur Berechnung geeigneter deskriptiver bivariater Statistiken
+# fuer den Zusammenhang zwischen einer metrischen und einer dichotomen Variablen
+# Berechnet und gibt geeignete deskriptive bivariate Statistiken fuer den
+# Zusammenhang zwischen einer metrischen und einer dichotomen Variablen aus
+
+# Berechnet geeignete deskriptive bivariate Statistiken fuer den Zusammenhang
+# zwischen einer metrischen und einer dichotomen Variablen.
+
+# input: metric_var Die metrische Variable.
+#        dichotomous_var Die dichotome Variable.
+#        data Die Dataset
+# outtput:Eine Zusammenfassung der berechneten deskriptiven bivariaten Statistiken
+
+calculate_bivariate_stats_correlation <- function(metric_var, dichotomous_var, data) {
+  # Check if there are non-missing values in the variables
+  if (any(is.na(data[[metric_var]])) || any(is.na(data[[dichotomous_var]]))) {
+    cat("Missing values present in the variables. Unable to calculate correlation.\n")
+    return(NULL)
+  }
+
+  # Convert dichotomous variable to numeric
+  dichotomous_numeric <- as.numeric(data[[dichotomous_var]])
+
+  # Calculate correlation
+  correlation <- cor(data[[metric_var]], dichotomous_numeric, method = "pearson")
+
+  # Create a summary table
+  summary_table <- data.frame(
+    "Correlation" = correlation
+  )
+
+  # Print the summary table
+  cat("\nBivariate Correlation Stats for", metric_var, "and", dichotomous_var, "\n")
+  print(summary_table)
+}
+calculate_bivariate_stats_correlation("Fare", dichotomous_vars[1], data)
+calculate_bivariate_stats_correlation("Age", dichotomous_vars[1], data)
