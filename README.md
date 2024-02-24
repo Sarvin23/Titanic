@@ -2,7 +2,7 @@
 
 # Namen der Gruppenmitglieder:
 1. Sumed Seeyakmani Kuson, 242571, **Sumed22**
-2. Sarvin Raaj Gunasekar, 242571, **Sarvin23**
+2. Sarvin Raaj Gunasekar, 242569, **Sarvin23**
 3. Goltan Norozi-Sedeh, 242201, **Goltan Norozi**
 4. Hutan Norozi-Sedeh, 243343, **Hutan92**
 
