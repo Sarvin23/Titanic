@@ -1,15 +1,27 @@
+# Die summary_stats_continuous Funktion berechnet Zusammenfassungsstatistiken für kontinuierliche Variablen in einem Datensatz.
+  #
+  # Input:
+  #   data: Ein Datenrahmen oder eine Datenmatrix, der/die die zu analysierenden Variablen enthält.
+  #
+  # Output:
+  #   Diese Funktion gibt Zusammenfassungsstatistiken für kontinuierliche Variablen im Datenrahmen aus.
+  #   Für jede kontinuierliche Variable werden der Mittelwert, Median, Standardabweichung, Interquartilsbereich,
+  #   Minimum und Maximum berechnet und in einer Tabelle zusammengefasst.
+  #   Wenn eine Variable nur fehlende Werte enthält, wird eine Meldung ausgegeben, dass alle Werte fehlen.
+
+
 summary_stats_continuous <- function(data) {
   metric_vars <- detect_metric_variables(data)
 
   for (var in metric_vars) {
 
-    # Check if there are non-missing values in the variable
+    # Überprüfe, ob nicht fehlende Werte in der Variable vorhanden sind
     if (all(is.na(data[[var]]))) {
-      cat("All values in the variable are missing:", var, "\n")
+      cat("Alle Werte in der Variable fehlen:", var, "\n")
       next
     }
 
-    # calculate summary statistics for a continuous variable
+    # Berechne Zusammenfassungsstatistiken für eine kontinuierliche Variable
     mean_var <- mean(data[[var]], na.rm = TRUE)
     median_var <- median(data[[var]], na.rm = TRUE)
     sd_var <- sd(data[[var]], na.rm = TRUE)
@@ -17,44 +29,57 @@ summary_stats_continuous <- function(data) {
     min_var <- min(data[[var]], na.rm = TRUE)
     max_var <- max(data[[var]], na.rm = TRUE)
 
-    # create a summary table
+    # Erstelle eine Zusammenfassungstabelle
     summary_table <- data.frame(
-      "Mean" = mean_var,
+      "Mittelwert" = mean_var,
       "Median" = median_var,
-      "Standard Deviation" = sd_var,
-      "Interquartile Range" = iqr_var,
+      "Standardabweichung" = sd_var,
+      "Interquartilsbereich" = iqr_var,
       "Minimum" = min_var,
       "Maximum" = max_var
     )
 
-    # print the summary table
-    cat("\nSummary Statistics for", var, "\n")
+    # Gib die Zusammenfassungstabelle aus
+    cat("\nZusammenfassungsstatistiken für", var, "\n")
     print(summary_table)
   }
 }
 
+
 data<-read.csv("Preprocessed.csv")
 summary_stats_continuous(data)
 
+# Diese Funktion berechnet Zusammenfassungsstatistiken für kategoriale Variablen in einem Datenrahmen.
+  #
+  # Argumente:
+  #   data: Ein Datenrahmen, der die Daten enthält.
+  #
+  # Rückgabe:
+  #   Diese Funktion gibt keine explizite Rückgabe aus, sondern druckt Zusammenfassungsstatistiken für jede kategoriale Variable im Datenrahmen.
+  #
+
 summary_stats_categorical <- function(data) {
+  # Kategoriale Variablen im Datenrahmen identifizieren
   cat_vars <- detect_cat_variables(data)
 
+    # Für jede kategoriale Variable Zusammenfassungsstatistiken berechnen
     for (var in cat_vars) {
+      # Überprüfen, ob alle Werte der Variablen fehlend sind
       if (all(is.na(data[[var]]))) {
       cat("All values in the variable", var,"are not available", "\n")
       next
       }
-    # calculate summary statistics for a categorical variable
+    # Häufigkeiten und Anteile berechnen
     counts <- table(data[[var]], useNA = "ifany")
     prop <- prop.table(counts)
 
-    # create a summary table without Proportions.Var1
+    # Zusammenfassungstabelle erstellen
     summary_table <- data.frame(
       "Counts" = as.numeric(counts),
       "Proportions" = prop
     )
 
-    # print the summary table
+    # Zusammenfassungsstatistiken drucken
     cat("\nSummary Statistics for", var, "\n")
     print(summary_table)
   }
@@ -85,8 +110,7 @@ calculate_bivariate_stats_categorical <- function(var1, var2) {
 
   # Summary of results
   result_summary <- list(
-    "Fisher's Exact Test" = fisher_test_result,
-    "Cramer's V" = cramer_v
+    "Fisher's Exact Test" = fisher_test_result
   )
 
   return(result_summary)
@@ -139,26 +163,49 @@ print(result_table)
 # outtput:Eine Zusammenfassung der berechneten deskriptiven bivariaten Statistiken
 
 calculate_bivariate_stats_correlation <- function(metric_var, dichotomous_var, data) {
-  # Check if there are non-missing values in the variables
+  # Überprüfen, ob Nicht-Missing-Werte in den Variablen vorhanden sind
   if (any(is.na(data[[metric_var]])) || any(is.na(data[[dichotomous_var]]))) {
     cat("Missing values present in the variables. Unable to calculate correlation.\n")
     return(NULL)
   }
 
-  # Convert dichotomous variable to numeric
+  # Dichotome Variable in numerischen Wert umwandeln
   dichotomous_numeric <- as.numeric(data[[dichotomous_var]])
 
-  # Calculate correlation
+  # Korrelation berechnen
   correlation <- cor(data[[metric_var]], dichotomous_numeric, method = "pearson")
 
-  # Create a summary table
+  # Zusammenfassungstabelle erstellen
   summary_table <- data.frame(
     "Correlation" = correlation
   )
 
-  # Print the summary table
+  # Zusammenfassungstabelle drucken
   cat("\nBivariate Correlation Stats for", metric_var, "and", dichotomous_var, "\n")
   print(summary_table)
 }
-calculate_bivariate_stats_correlation("Fare", dichotomous_vars[1], data)
-calculate_bivariate_stats_correlation("Age", dichotomous_vars[1], data)
+calculate_bivariate_stats_correlation("Fare", "Survived", data)
+calculate_bivariate_stats_correlation("Age", "Survived", data)
+
+
+# Funktion zur Erstellung einer geeigneten Visualisierung von drei oder
+# vier kategorialen Variablen
+# Erstellt und gibt eine geeignete Visualisierung von drei oder vier
+# kategorialen Variablen aus
+
+# Erstellt eine geeignete Visualisierung von drei oder vier
+# kategorialen Variablen.
+
+# input: var1 Die erste kategoriale Variable.
+#        var2 Die zweite kategoriale Variable.
+#        var3 Die dritte kategoriale Variable.
+#        var4 (Optional) Die vierte kategoriale Variable.
+# output: Eine visuelle Darstellung der kategorialen Variablen
+
+visualize_categorical_variables <- function(var1, var2, var3, var4 = NULL) {
+  if(is.null(var4)) {
+    mosaicplot(table(var1, var2, var3), main = "Mosaikdiagramm")
+  } else {
+    mosaicplot(table(var1, var2, var3, var4), main = "Mosaikdiagramm")
+  }
+}

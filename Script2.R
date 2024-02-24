@@ -1,19 +1,27 @@
-# Function to detect variables with metric values
+#Die Funktion detect_metric_variables dient dazu, Variablen in einem Datenrahmen zu identifizieren,
+# die metrische Werte enthalten. Metrische Werte sind numerische Werte, die in der Regel kontinuierlich sind
+# und Messungen darstellen, wie z.B. Größen, Gewichte oder Temperatur.
+#
+#  input: data, Ein Datenrahmen, in dem nach Variablen mit metrischen Werten gesucht werden soll.
+#  output : in Vektor mit den Namen der Variablen, die metrische Werte enthalten.
+
+
 detect_metric_variables <- function(data) {
-  # Initialize an empty array to store the variable names
+  # Initialisiere ein leeres Array, um die Variablennamen zu speichern
   metric_vars <- c()
 
-  # Loop through each column in the data
+  # Iteriere durch jede Spalte in den Daten
   for (col in names(data)) {
-    # Check if the column contains metric values
+    # Überprüfe, ob die Spalte metrische Werte enthält
     if (is.numeric(data[[col]]) && any(grepl("\\.", as.character(data[[col]])))) {
-      metric_vars <- c(metric_vars, col)  # Add the variable name to the array data[[col]]
+      metric_vars <- c(metric_vars, col)  # Füge den Variablennamen zum Array hinzu data[[col]]
     }
   }
 
-  # Return the array of variable names with metric values
+  # Gib das Array der Variablennamen mit metrischen Werten zurück
   return(metric_vars)
 }
+
 
 # Example usage
 data <- read.csv("Preprocessed.csv")  # Replace "your_data.csv" with the actual file name
@@ -21,27 +29,31 @@ metric_vars <-  detect_metric_variables(data)
 print(metric_vars)
 
 
+# Funktion zur Erkennung kategorischer Variablen im Datensatz.
+# Parameter:
+#   - data: Die Daten, in denen kategorische Variablen erkannt werden sollen.
+#   - exclude_column: Die Spalte, die ausgeschlossen werden soll. Standardmäßig ist "X" ausgeschlossen.
 detect_cat_variables <- function(data, exclude_column = "X") {
-  # Initialize an empty array to store the variable names
+  # Initialisiere ein leeres Array zum Speichern der Variablennamen
   cat_vars <- c()
 
-  # Loop through each column in the data
+  # Iteriere durch jede Spalte in den Daten
   for (col in names(data)) {
-    # Skip the exclude_column
+    # Überspringe die exclude_column
     if (col == exclude_column) {
       next
     }
 
-    # Check if the column contains metric values
+    # Überprüfe, ob die Spalte metrische Werte enthält
     if (!(is.numeric(data[[col]]) && any(grepl("\\.", as.character(data[[col]]))))) {
-      cat_vars <- c(cat_vars, col)  # Add the variable name to the array data[[col]]
+      cat_vars <- c(cat_vars, col)  # Füge den Variablennamen zum Array hinzu data[[col]]
     }
   }
 
-
-  # Return the array of variable names with metric values
+  # Gib das Array der Variablennamen mit kategorischen Werten zurück
   return(cat_vars)
 }
+
 
 # Example usage
 data <- read.csv("Preprocessed.csv")
@@ -49,18 +61,45 @@ cat_vars <-  detect_cat_variables(data)
 print(cat_vars)
 
 
+# Funktion zur Erkennung dichotomer Variablen im Datensatz.
+# Parameter:
+#   - data: Die Daten, in denen dichotome Variablen erkannt werden sollen.
+detect_dichotomous_variables <- function(data) {
+  dichotomous_vars <- character(0)  # Initialisiere ein leeres Array zum Speichern der dichotomen Variablennamen.
 
+  for (col in names(data)) {  # Iteriere über jede Spalte im Datensatz.
+    unique_values <- unique(data[[col]])  # Bestimme die eindeutigen Werte in der aktuellen Spalte.
+
+    # Überprüfe, ob die Spalte genau zwei eindeutige Werte enthält, die 0 und 1 sind.
+    if (length(unique_values) == 2 && all(unique_values %in% c(0, 1))) {
+      dichotomous_vars <- c(dichotomous_vars, col)  # Füge den Namen der dichotomen Variablen zum Array hinzu.
+    }
+  }
+
+  return(dichotomous_vars)  # Gib das Array der dichotomen Variablennamen zurück.
+}
+
+data <- read.csv("Preprocessed.csv")
+dic_vars <-  detect_dichotomous_variables(data)
+print(dic_vars)
+
+
+
+# Funktion zur Erstellung von Kombinationen kategorischer Variablen im Datensatz.
+# Parameter:
+#   - data: Die Daten, aus denen Kombinationen kategorischer Variablen erstellt werden sollen.
+#   - exclude_column: Die Spalte, die ausgeschlossen werden soll. Standardmäßig ist "X" ausgeschlossen.
 detect_cat_variable_combinations <- function(data, exclude_column = "X") {
-  # Initialize an empty list to store combinations
+  # Initialisiere eine leere Liste zum Speichern von Kombinationen
   cat_var_combinations <- list()
 
-  # Get categorical variables
+  # Erhalte kategorische Variablen
   cat_vars <- names(data)[sapply(data, function(x) is.factor(x) | is.character(x))]
 
-  # Generate combinations of 2 categorical variables
+  # Generiere Kombinationen von 2 kategorischen Variablen
   combinations <- combn(cat_vars, 2)
 
-  # Loop through each combination
+  # Iteriere durch jede Kombination
   for (i in 1:ncol(combinations)) {
     cat_var_combinations[[i]] <- combinations[, i]
   }
@@ -70,57 +109,17 @@ detect_cat_variable_combinations <- function(data, exclude_column = "X") {
 
 
 
-# Funktion zur Erstellung einer geeigneten Visualisierung von drei oder
-# vier kategorialen Variablen
-# Erstellt und gibt eine geeignete Visualisierung von drei oder vier 
-# kategorialen Variablen aus
-
-# Erstellt eine geeignete Visualisierung von drei oder vier 
-# kategorialen Variablen.
-
-# input: var1 Die erste kategoriale Variable.
-#        var2 Die zweite kategoriale Variable.
-#        var3 Die dritte kategoriale Variable.
-#        var4 (Optional) Die vierte kategoriale Variable.
-# output: Eine visuelle Darstellung der kategorialen Variablen
-
-visualize_categorical_variables <- function(var1, var2, var3, var4 = NULL) {
-  if(is.null(var4)) {
-    mosaicplot(table(var1, var2, var3), main = "Mosaikdiagramm")
-  } else {
-    mosaicplot(table(var1, var2, var3, var4), main = "Mosaikdiagramm")
-  }
-}
-
-
-
-
-
-# Internal function to remove missing values from a vector
-# Remove missing values from a vector
-# This function removes missing values from a vector.
-# input: x A vector
-# output: A vector without missing values
+# Interne Funktion zum Entfernen fehlender Werte aus einem Vektor
+# Entferne fehlende Werte aus einem Vektor
+# Diese Funktion entfernt fehlende Werte aus einem Vektor.
+# Eingabe: x Ein Vektor
+# Ausgabe: Ein Vektor ohne fehlende Werte
 
 remove_missing_values <- function(x) {
   return(x[!is.na(x)])
 }
 
-data <- read.csv("Preprocessed.csv")
-dic_vars <-  detect_dichotomous_variables(data)
-print(dic_vars)
 
-#Detecting the dichotomous_variables in the dataset.
-detect_dichotomous_variables <- function(data) {
-  dichotomous_vars <- character(0)
 
-  for (col in names(data)) {
-    unique_values <- unique(data[[col]])
-    if (length(unique_values) == 2 && all(unique_values %in% c(0, 1))) {
-      dichotomous_vars <- c(dichotomous_vars, col)
-    }
-  }
 
-  return(dichotomous_vars)
-}
-detect_dichotomous_variables()
+
