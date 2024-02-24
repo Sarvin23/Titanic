@@ -4,13 +4,13 @@
 1. Sumed Seeyakmani Kuson, 242571, **Sumed22**
 2. Sarvin Raaj Gunasekar, 242571, **Sarvin23**
 3. Goltan Norozi-Sedeh, 242201, **Goltan Norozi**
-4. Hutan Norozi-Sedeh, 243343 
+4. Hutan Norozi-Sedeh, 243343, **Hutan92**
 
 # Projektbeschreibung:
 In diesem Projekt führen wir eine Analyse des Titanic-Datensatzes durch. Wir nutzen R-Skripte zur Vorverarbeitung der Daten sowie zur Durchführung von deskriptiven Analysen und Visualisierungen.
 
 # Aufgaben:
-Vorverarbeitung des Datensatzes (Preprocessing.R):
+1. Vorverarbeitung des Datensatzes (Preprocessing.R):
 Zwei unserer Gruppenmitglieder arbeiten an einem R-Skript, um den Titanic-Datensatz für die Analyse vorzubereiten. Dabei werden folgende Schritte durchgeführt:
 
 * Extraktion der Anrede aus den Namen
@@ -20,10 +20,12 @@ Zwei unserer Gruppenmitglieder arbeiten an einem R-Skript, um den Titanic-Datens
 * Extraktion von Informationen aus der Kabinenvariable
 * Entfernung unnötiger Variablen aus dem Datensatz
 * Das Skript und der bereinigte Datensatz werden im GitHub-Repository gespeichert.
-* Erstellung von R-Skripten mit Funktionen zur Analyse (Functions.R und HelperFunctions.R):
-* Wir erstellen zwei weitere R-Skripte:
+
+2. Erstellung von R-Skripten mit Funktionen zur Analyse (Functions.R und HelperFunctions.R):
+ * Wir erstellen zwei weitere R-Skripte:
     * Skript1.R enthält alle Hauptfunktionen zur Deskription und Visualisierung des Datensatzes.
     * Skript2.R enthält Helferfunktionen, die von Skript1.R verwendet werden.
+3. Dokumentation und Diskussion 
 * Wir legen besonderen Wert auf eine gute Dokumentation aller Funktionen und nutzen das GitHub-Repository, um darüber zu diskutieren, welche Funktionen benötigt werden.
 
 # Analyse des Datensatzes:
