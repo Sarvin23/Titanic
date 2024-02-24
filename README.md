@@ -1,4 +1,4 @@
-# Projekt Titanic-Analyse
+# Projekt Titanic-Analyse von Gruppe 10
 
 # Namen der Gruppenmitglieder:
 1. Sumed Seeyakmani Kuson, 242571, **Sumed22**
