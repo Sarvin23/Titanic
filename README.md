@@ -22,11 +22,12 @@ Zwei unserer Gruppenmitglieder arbeiten an einem R-Skript, um den Titanic-Datens
 * Das Skript und der bereinigte Datensatz werden im GitHub-Repository gespeichert.
 
 2. Erstellung von R-Skripten mit Funktionen zur Analyse (Functions.R und HelperFunctions.R):
+   Als Gruppe erstellen wir die benötigten Funktionen.
  * Wir erstellen zwei weitere R-Skripte:
     * Skript1.R enthält alle Hauptfunktionen zur Deskription und Visualisierung des Datensatzes.
     * Skript2.R enthält Helferfunktionen, die von Skript1.R verwendet werden.
 3. Dokumentation und Diskussion 
-* Wir legen besonderen Wert auf eine gute Dokumentation aller Funktionen und nutzen das GitHub-Repository, um darüber zu diskutieren, welche Funktionen benötigt werden.
+* Wir als Gruppe, legen besonderen Wert auf eine gute Dokumentation aller Funktionen und nutzen das GitHub-Repository, um darüber zu diskutieren, welche Funktionen benötigt werden.
 
 # Analyse des Datensatzes:
 Diejenigen Gruppenmitglieder, die nicht am ersten Schritt beteiligt waren, verwenden die erstellten Funktionen aus Functions.R, um den bereinigten Datensatz zu analysieren.  Ein weiteres Skript im Repository wird erstellt, das jede Funktion aus Functions.R mindestens einmal anwendet. Dabei werden sinnvolle Analysen durchgeführt und der zusammenhand der Daten wird visualisiert, wie zum Beispiel die Untersuchung der Überlebensrate in Bezug auf andere Variablen oder das Verhalten des Ticketpreises.
