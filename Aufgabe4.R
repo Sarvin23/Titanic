@@ -23,7 +23,7 @@ for (var in dichotomous_vars) {
 calculate_bivariate_stats_correlation("Fare", "Survived", titanic_data)
 
 # Visualisierung kategorialer Variablen
-visualize_categorical_variables(titanic_data$Sex, titanic_data$Pclass
+visualize_categorical_variables(titanic_data$Sex, titanic_data$Pclass,
                                 titanic_data$Embarked, titanic_data$Survived)
 
 # Visualisierung des Zusammenhangs zwischen kontinuierlichen Variablen und
@@ -37,13 +37,23 @@ plot(titanic_data$Fare, titanic_data$Survived,
      xlab = "Ticketpreis", ylab = "Ueberlebt (1) oder nicht (0)", 
      col = ifelse(titanic_data$Survived == 1, "blue", "red"))
 
-# Ueberlebensrate nach Geschlecht und Klasse visualisieren
-barplot(table(titanic_data$Survived, titanic_data$Sex, titanic_data$Pclass),
-        beside = TRUE,
-        legend.text = TRUE,
-        main = "Ueberlebensrate nach Geschlecht und Klasse",
-        xlab = "Ueberlebt (1) oder nicht (0)",
-        ylab = "Anzahl der Passagiere")
+
+
+# Daten für die Visualisierung auswählen
+data_for_plot <- subset(titanic_data, !is.na(Survived) & !is.na(Sex) & !is.na(Pclass))
+
+# Kreieren der Kreuztabelle
+cross_tab <- table(data_for_plot$Survived, data_for_plot$Sex, data_for_plot$Pclass)
+
+# Säulendiagramm erstellen
+barplot(as.matrix(cross_tab),
+        beside = TRUE, legend.text = TRUE,
+        main = "Überlebensrate nach Geschlecht und Klasse",
+        xlab = "Überlebt",
+        ylab = "Anzahl der Passagiere",
+        col = c("lightblue", "salmon"),
+        names = c("Weiblich", "Männlich"),
+        args.legend = list(title = "Klasse"))
 
 # Altersverteilung der Passagiere visualisieren
 hist(titanic_data$Age,

@@ -151,8 +151,7 @@ print(result_table)
 
 # Funktion zur Berechnung geeigneter deskriptiver bivariater Statistiken
 # fuer den Zusammenhang zwischen einer metrischen und einer dichotomen Variablen
-# Berechnet und gibt geeignete deskriptive bivariate Statistiken fuer den
-# Zusammenhang zwischen einer metrischen und einer dichotomen Variablen aus
+
 
 # Berechnet geeignete deskriptive bivariate Statistiken fuer den Zusammenhang
 # zwischen einer metrischen und einer dichotomen Variablen.
@@ -160,7 +159,7 @@ print(result_table)
 # input: metric_var Die metrische Variable.
 #        dichotomous_var Die dichotome Variable.
 #        data Die Dataset
-# outtput:Eine Zusammenfassung der berechneten deskriptiven bivariaten Statistiken
+# output:Eine Zusammenfassung der berechneten deskriptiven bivariaten Statistiken
 
 calculate_bivariate_stats_correlation <- function(metric_var, dichotomous_var, data) {
   # Überprüfen, ob Nicht-Missing-Werte in den Variablen vorhanden sind
